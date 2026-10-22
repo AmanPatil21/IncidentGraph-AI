@@ -1,0 +1,11 @@
+incident_id,date,service,error_code,root_cause,primary_job,runbook,deployment
+INC-001,2026-10-01,settlement-worker,DB_CONNECTION_POOL_EXHAUSTED,Database connection pool exhausted due to a connection leak introduced in settlement-worker v2.8.1,JOB-284,RB-DB-001,DEP-100
+INC-002,2026-10-02,payment-api,UPSTREAM_GATEWAY_TIMEOUT,External gateway latency exceeded the configured 2-second timeout during a provider degradation,JOB-310,RB-PAY-002,DEP-101
+INC-003,2026-10-03,invoice-exporter,S3_ACCESS_DENIED,Service account IAM policy update removed object write permission for invoice export bucket,JOB-355,RB-IAM-003,DEP-102
+INC-004,2026-10-04,reconciliation,SCHEMA_MISMATCH,Upstream transactions added currency_code_v2 while reconciliation expected currency_code,JOB-402,RB-SCHEMA-004,DEP-103
+INC-005,2026-10-05,notification-worker,QUEUE_CONSUMER_LAG,Notification consumer replicas dropped from 6 to 1 after autoscaler configuration change,JOB-438,RB-QUEUE-005,DEP-104
+INC-006,2026-10-06,fraud-scoring,MODEL_ARTIFACT_NOT_FOUND,New fraud model deployment referenced an artifact path that was not published,JOB-467,RB-ML-006,DEP-105
+INC-007,2026-10-07,payout-service,RATE_LIMIT_429,Partner bank API rate limit was exceeded by a new unbounded polling loop,JOB-501,RB-RATE-007,DEP-106
+INC-008,2026-10-08,analytics-etl,UPSTREAM_DEPENDENCY_FAILED,Analytics ETL skipped because prerequisite JOB-552 failed on missing source partition,JOB-553,RB-ETL-008,DEP-107
+INC-009,2026-10-09,webhook-dispatcher,TLS_CERT_EXPIRED,Outbound webhook signing proxy certificate expired at 00:00 UTC,JOB-589,RB-TLS-009,DEP-108
+INC-010,2026-10-10,ledger-api,DB_DEADLOCK,Concurrent ledger updates acquired account locks in inconsistent order,JOB-620,RB-LOCK-010,DEP-109

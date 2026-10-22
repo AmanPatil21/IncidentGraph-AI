@@ -1,0 +1,11 @@
+deployment_id,service,version,deployed_at,incident_id
+DEP-100,settlement-worker,v2.8.1,2026-10-01T08:57:00Z,INC-001
+DEP-101,payment-api,v2.9.1,2026-10-02T08:57:00Z,INC-002
+DEP-102,invoice-exporter,v2.10.1,2026-10-03T08:57:00Z,INC-003
+DEP-103,reconciliation,v2.11.1,2026-10-04T08:57:00Z,INC-004
+DEP-104,notification-worker,v2.12.1,2026-10-05T08:57:00Z,INC-005
+DEP-105,fraud-scoring,v2.13.1,2026-10-06T08:57:00Z,INC-006
+DEP-106,payout-service,v2.14.1,2026-10-07T08:57:00Z,INC-007
+DEP-107,analytics-etl,v2.15.1,2026-10-08T08:57:00Z,INC-008
+DEP-108,webhook-dispatcher,v2.16.1,2026-10-09T08:57:00Z,INC-009
+DEP-109,ledger-api,v2.17.1,2026-10-10T08:57:00Z,INC-010
