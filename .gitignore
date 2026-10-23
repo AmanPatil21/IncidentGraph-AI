@@ -3,22 +3,28 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+env/
 
-# Environment variables / API keys
+# Environment variables and secrets
 .env
 .env.*
 !.env.example
+
+# Chroma vector database
+
+incidentgraph_dataset/chroma_db/*
 
 # IDE
 .vscode/
 .idea/
 
-# OS
+# OS files
 .DS_Store
-
-# Local databases
-*.db
-*.sqlite3
+Thumbs.db
 
 # Logs
 *.log
+
+# Test and cache files
+.pytest_cache/
+.mypy_cache/
