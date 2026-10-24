@@ -1,5 +1,6 @@
 # Python
 __pycache__/
+*.py[cod]
 *.pyc
 .venv/
 venv/
@@ -28,3 +29,6 @@ Thumbs.db
 # Test and cache files
 .pytest_cache/
 .mypy_cache/
+
+# Local environment snapshot
+requirements-full.txt

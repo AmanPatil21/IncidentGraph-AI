@@ -1,0 +1,31 @@
+question,incident_id,expected_sources,retrived_sources,hit_at_3,recall_at_3,mrr_at_3
+What caused INC-001?,INC-001,incidents/inc-001.md;postmortems/pm-001.md,incidents/inc-001.md;postmortems/pm-001.md,1,1.0,1.0
+Which runbook covers DB_CONNECTION_POOL_EXHAUSTED for settlement-worker?,INC-001,runbooks/rb-db-001.md,runbooks/rb-db-001.md;runbooks/rb-pay-002.md;runbooks/rb-queue-005.md,1,1.0,1.0
+What job failed in INC-001 and what was the error code?,INC-001,incidents/inc-001.md,incidents/inc-001.md;postmortems/pm-001.md,1,1.0,1.0
+What caused INC-002?,INC-002,incidents/inc-002.md;postmortems/pm-002.md,incidents/inc-002.md;postmortems/pm-002.md,1,1.0,1.0
+Which runbook covers UPSTREAM_GATEWAY_TIMEOUT for payment-api?,INC-002,runbooks/rb-pay-002.md,runbooks/rb-pay-002.md;runbooks/rb-rate-007.md;runbooks/rb-queue-005.md,1,1.0,1.0
+What job failed in INC-002 and what was the error code?,INC-002,incidents/inc-002.md,incidents/inc-002.md;postmortems/pm-002.md,1,1.0,1.0
+What caused INC-003?,INC-003,incidents/inc-003.md;postmortems/pm-003.md,incidents/inc-003.md;postmortems/pm-003.md;runbooks/rb-iam-003.md,1,1.0,1.0
+Which runbook covers S3_ACCESS_DENIED for invoice-exporter?,INC-003,runbooks/rb-iam-003.md,runbooks/rb-iam-003.md;runbooks/rb-queue-005.md;runbooks/rb-ml-006.md,1,1.0,1.0
+What job failed in INC-003 and what was the error code?,INC-003,incidents/inc-003.md,incidents/inc-003.md;postmortems/pm-003.md;runbooks/rb-iam-003.md,1,1.0,1.0
+What caused INC-004?,INC-004,incidents/inc-004.md;postmortems/pm-004.md,incidents/inc-004.md;postmortems/pm-004.md;runbooks/rb-schema-004.md,1,1.0,1.0
+Which runbook covers SCHEMA_MISMATCH for reconciliation?,INC-004,runbooks/rb-schema-004.md,runbooks/rb-schema-004.md;runbooks/rb-ml-006.md;runbooks/rb-etl-008.md,1,1.0,1.0
+What job failed in INC-004 and what was the error code?,INC-004,incidents/inc-004.md,incidents/inc-004.md;postmortems/pm-004.md;runbooks/rb-schema-004.md,1,1.0,1.0
+What caused INC-005?,INC-005,incidents/inc-005.md;postmortems/pm-005.md,postmortems/pm-005.md;incidents/inc-005.md,1,1.0,1.0
+Which runbook covers QUEUE_CONSUMER_LAG for notification-worker?,INC-005,runbooks/rb-queue-005.md,runbooks/rb-queue-005.md;runbooks/rb-pay-002.md;runbooks/rb-rate-007.md,1,1.0,1.0
+What job failed in INC-005 and what was the error code?,INC-005,incidents/inc-005.md,incidents/inc-005.md;postmortems/pm-005.md,1,1.0,1.0
+What caused INC-006?,INC-006,incidents/inc-006.md;postmortems/pm-006.md,incidents/inc-006.md;postmortems/pm-006.md;runbooks/rb-ml-006.md,1,1.0,1.0
+Which runbook covers MODEL_ARTIFACT_NOT_FOUND for fraud-scoring?,INC-006,runbooks/rb-ml-006.md,runbooks/rb-ml-006.md;runbooks/rb-schema-004.md;runbooks/rb-etl-008.md,1,1.0,1.0
+What job failed in INC-006 and what was the error code?,INC-006,incidents/inc-006.md,incidents/inc-006.md;postmortems/pm-006.md,1,1.0,1.0
+What caused INC-007?,INC-007,incidents/inc-007.md;postmortems/pm-007.md,incidents/inc-007.md;postmortems/pm-007.md,1,1.0,1.0
+Which runbook covers RATE_LIMIT_429 for payout-service?,INC-007,runbooks/rb-rate-007.md,runbooks/rb-rate-007.md;runbooks/rb-pay-002.md;runbooks/rb-queue-005.md,1,1.0,1.0
+What job failed in INC-007 and what was the error code?,INC-007,incidents/inc-007.md,incidents/inc-007.md;postmortems/pm-007.md,1,1.0,1.0
+What caused INC-008?,INC-008,incidents/inc-008.md;postmortems/pm-008.md,postmortems/pm-008.md;incidents/inc-008.md;runbooks/rb-etl-008.md,1,1.0,1.0
+Which runbook covers UPSTREAM_DEPENDENCY_FAILED for analytics-etl?,INC-008,runbooks/rb-etl-008.md,runbooks/rb-etl-008.md;runbooks/rb-pay-002.md;runbooks/rb-iam-003.md,1,1.0,1.0
+What job failed in INC-008 and what was the error code?,INC-008,incidents/inc-008.md,incidents/inc-008.md;postmortems/pm-008.md;runbooks/rb-etl-008.md,1,1.0,1.0
+What caused INC-009?,INC-009,incidents/inc-009.md;postmortems/pm-009.md,postmortems/pm-009.md;incidents/inc-009.md,1,1.0,1.0
+Which runbook covers TLS_CERT_EXPIRED for webhook-dispatcher?,INC-009,runbooks/rb-tls-009.md,runbooks/rb-tls-009.md;runbooks/rb-pay-002.md;runbooks/rb-rate-007.md,1,1.0,1.0
+What job failed in INC-009 and what was the error code?,INC-009,incidents/inc-009.md,incidents/inc-009.md;postmortems/pm-009.md,1,1.0,1.0
+What caused INC-010?,INC-010,incidents/inc-010.md;postmortems/pm-010.md,incidents/inc-010.md;postmortems/pm-010.md,1,1.0,1.0
+Which runbook covers DB_DEADLOCK for ledger-api?,INC-010,runbooks/rb-lock-010.md,runbooks/rb-lock-010.md;runbooks/rb-db-001.md;runbooks/rb-pay-002.md,1,1.0,1.0
+What job failed in INC-010 and what was the error code?,INC-010,incidents/inc-010.md,incidents/inc-010.md;postmortems/pm-010.md,1,1.0,1.0
