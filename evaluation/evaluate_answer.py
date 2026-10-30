@@ -2,7 +2,7 @@ import csv
 import json
 import time
 from pathlib import Path
-from Retriver import ask_question
+from Retriever import ask_question
 
 PROJECT_PATH = Path(__file__).resolve().parents[1]
 DATASET_PATH = (PROJECT_PATH /"incidentgraph_dataset"/"evaluation"/"qa_ground_truth.jsonl")
