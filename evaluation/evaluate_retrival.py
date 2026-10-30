@@ -1,7 +1,7 @@
 import json 
 import csv 
 from pathlib import Path
-from Retriver import retrive_context
+from Retriever import retrive_context
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 DATASET_PATH = (PROJECT_ROOT/ "incidentgraph_dataset/evaluation/qa_ground_truth.jsonl") 
