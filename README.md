@@ -4,8 +4,6 @@
 
 IncidentGraph AI is a local-first prototype that answers questions about operational incidents using incident reports, postmortems, and runbooks. It combines LangChain, ChromaDB, Ollama, and FastAPI to retrieve relevant evidence, resolve conversational follow-ups, and return answers alongside retrieved document paths.
 
-> **Project status:** Phase 1 backend implemented and evaluated. The Streamlit interface is planned, not yet implemented. Despite the name, the current version does **not** contain a knowledge graph; graph-enhanced retrieval is Phase 2.
-
 ## What it does
 
 - **Evidence-grounded Q&A:** Answers questions using retrieved incident evidence and is instructed to acknowledge insufficient evidence.
