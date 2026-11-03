@@ -1,6 +1,7 @@
 import os 
 import re
 import json
+import time
 from langchain_core.tools import StructuredTool
 from langchain_core.messages import SystemMessage
 from agent.tools import get_incident_details,search_incident_documents , get_runbook
@@ -46,6 +47,8 @@ Rules:
 llm = ChatGoogleGenerativeAI(
     model = os.getenv("GEMINI_MODEL" , "gemini-3.8-flash"),
     temperature= 0,
+    timeout=45,
+    max_retries=1
 )
 
 
@@ -54,7 +57,8 @@ tool_map = {
     tool.name : tool for tool in tools
 }
 
-
+def normalize_source(source: str) -> str:
+    return source.strip().replace("\\", "/").removeprefix("./")
 
 
 def extract_answer(response) -> str :
@@ -69,11 +73,19 @@ def extract_answer(response) -> str :
 def validate_citations(answer: str, retrieved_sources: set) -> dict:
     pattern = r"(?:incidents|postmortems|runbooks)/[\w-]+\.md"
 
-    cited_sources = set(re.findall(pattern, answer))
+    cited_sources = {
+        normalize_source(source)
+        for source in re.findall(pattern, answer)
+    }
 
+    normalized_retrieved = {
+        normalize_source(source)
+        for source in retrieved_sources
+    }
+    unsupported_citations = cited_sources - normalized_retrieved
     return {
         "cited_sources": sorted(cited_sources),
-        "unsupported_citations": sorted(cited_sources - retrieved_sources),
+        "unsupported_citations": sorted(unsupported_citations),
         "missing_citations": len(cited_sources) == 0
     }
 
@@ -86,7 +98,10 @@ def investigate(question: str , max_steps : int =3) ->dict :
     tool_calls_used = 0
     max_tool_calls = 5
     for step in range(max_steps) :
+        print(f"[Agent] Step {step + 1}: Calling Gemini...", flush=True)
+        start = time.perf_counter()
         response = llm_with_tools.invoke(messages)
+        print(f"[Agent] Step {step + 1}: Gemini responded in {time.perf_counter() - start:.2f}s", flush=True)
         messages.append(response) 
         if not response.tool_calls :
             answer = extract_answer(response)
@@ -115,7 +130,9 @@ def investigate(question: str , max_steps : int =3) ->dict :
                         raise ValueError(f"Unknown tool: {tool_name}")
 
                     tool_calls_used += 1
+                    print(f"[Agent] Executing tool: {tool_name}", flush=True)
                     result = selected_tool.invoke(tool_args)
+                    print(f"[Agent] Tool completed: {tool_name}", flush=True)
                     status = "success"
                 except Exception as error:
                     result = {"error": str(error)}
@@ -132,15 +149,16 @@ def investigate(question: str , max_steps : int =3) ->dict :
 
                 for document in documents:
                     if isinstance(document, dict) and document.get("source"):
-                        retrieved_sources.add(document["source"])
+                        retrieved_sources.add(normalize_source(document["source"]))
 
             messages.append(ToolMessage(content=json.dumps(result), tool_call_id=tool["id"]))
 
     final_llm = llm 
+    print("[Agent] Generating final investigation...", flush=True)
     final_response = final_llm.invoke(
         messages + [HumanMessage(content="The investigation tool-call limit has been reached. Summarize the evidence collected so far, cite document sources, and clearly identify any missing information. DO no invent facts.")]
     )
-    answer = extract_answer(response)
+    answer = extract_answer(final_response)
     citation_validation = validate_citations(answer, retrieved_sources)
 
 

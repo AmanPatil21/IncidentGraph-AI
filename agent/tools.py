@@ -23,7 +23,6 @@ def get_incident_details(incident_id: str) -> dict :
     root = Path(__file__).resolve().parent.parent
     if not re.fullmatch(r"INC-\d+" , incident_id) :
         raise ValueError("Invalide incident id format") 
-    root = Path(__file__).resolve().parent.parent
     incident_path = root / f"incidentgraph_dataset/incidents/{incident_id}.md"
     if not incident_path.is_file() :
         return {
@@ -85,9 +84,9 @@ def get_runbook(query:str) -> list[dict] :
     results = []
     for doc in documents :
         results.append({
-            "source" : doc.metadata.get("source" ,"unknow"),
+            "source" : doc.metadata.get("source" ,"unknown"),
             "content" : doc.page_content ,
-            "metadat" : doc.metadata,
+            "metadata" : doc.metadata,
             "match_type" : "semantic"
         })
     return results

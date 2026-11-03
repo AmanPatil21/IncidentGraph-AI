@@ -1,12 +1,19 @@
 import re
+import os 
+import shutil
+import tempfile
+from dotenv import load_dotenv
 from pathlib import Path
 from pydantic import BaseModel , Field
 from langchain_chroma import Chroma 
 from langchain_ollama import OllamaEmbeddings, ChatOllama
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.prompts import MessagesPlaceholder
+
+load_dotenv()
 
 class RewrittenQuestion(BaseModel) :
     standalone_question : str = Field(
@@ -15,11 +22,43 @@ class RewrittenQuestion(BaseModel) :
 
 # Configuration :
 root = Path(__file__).resolve().parent/"incidentgraph_dataset"
-embedding = OllamaEmbeddings(model = "nomic-embed-text")
-store = Chroma( persist_directory = str(root/"chroma_db") , embedding_function= embedding)
+# embedding = OllamaEmbeddings(model = "nomic-embed-text")
+embedding = GoogleGenerativeAIEmbeddings(
+    model=os.getenv("GEMINI_EMBEDDING_MODEL", "models/gemini-embedding-001")
+)
+
+def get_chroma_directory():
+    source_directory = root / "chroma_db"
+    if not source_directory.exists():
+        raise FileNotFoundError(
+            f"ChromaDB index not found: {source_directory}. "
+            "Run the ingestion script before building the Docker image."
+        )
+    if os.getenv("AWS_LAMBDA_FUNCTION_NAME"):
+        target_directory = Path(tempfile.gettempdir()) / "incidentgraph_chroma_db"
+
+        # Each Lambda execution environment gets its own /tmp directory.
+        # Reuse the copied index on warm invocations.
+        if not (target_directory / "chroma.sqlite3").exists():
+            if target_directory.exists():
+                shutil.rmtree(target_directory)
+
+            shutil.copytree(source_directory, target_directory)
+
+        return target_directory
+
+    return source_directory
+
+
+chroma_directory = get_chroma_directory()
+store = Chroma(persist_directory = str(chroma_directory), embedding_function=embedding)
 chat_session = {}
 active_incidents= {}
-llm = ChatOllama(model= "llama3.2:1b", temperature=0)
+# llm = ChatOllama(model= "llama3.2:1b", temperature=0)
+llm = ChatGoogleGenerativeAI(
+    model=os.getenv("GEMINI_MODEL", "gemini-3.8-flash"),
+    temperature=0
+)
 structured_rewrite_llm = llm.with_structured_output(
     RewrittenQuestion,
     method="json_schema"
@@ -178,17 +217,3 @@ def ask_question(question:str , session_id:str) :
 
 chain  = prompt | llm | StrOutputParser()
 rewrite_chain = rewrite_prompt | structured_rewrite_llm
-
-
-# question1 = "What caused INC-001?" 
-
-
-# answer = chain.invoke({
-#     "context" : retrive_context(question) ,
-#     "question" : question
-# })
-
-# retrive_context(question)
-# rewrite_question()
-
-# print(ask_question(question))

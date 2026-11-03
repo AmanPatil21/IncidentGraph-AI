@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from mangum import Mangum
 from pydantic import BaseModel , Field
 from Retriever import ask_question
 from agent.gemini_agent import investigate
@@ -39,3 +40,9 @@ def investigate_incident(request: InvestigateRequest) :
         if "503" in str(error):
             raise HTTPException(status_code=503, detail="Gemini is temporarily unavailable. Please retry later.")
         raise HTTPException(status_code=502, detail="Gemini API request failed.")
+
+
+
+
+
+handler = Mangum(app)
