@@ -3,11 +3,6 @@
 **Evidence-grounded incident investigation using conversational RAG, Gemini-powered agents, ChromaDB, and serverless deployment on AWS.**
 
 IncidentGraph AI is an AI-powered incident investigation system designed to help engineers understand operational failures using incident reports, postmortems, and runbooks.
-
-## What it does
-
-> **Project status:** The conversational RAG backend, Gemini-based investigation agent, Docker containerization, and AWS Lambda deployment are implemented. AWS Lambda `/health` testing has passed. End-to-end cloud validation of `/ask` and `/investigate` is pending because the Gemini API free-tier request quota was exhausted. Graph-enhanced retrieval remains planned.
-
 ## Features
 
 ### 1. Evidence-grounded conversational RAG
